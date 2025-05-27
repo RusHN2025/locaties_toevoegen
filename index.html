@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Locaties en Afdelingen Aanmaken - Instructie & Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            background: #f5f6fa;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(0, 123, 255, 0.3);
+        }
+
+        header h1 {
+            font-size: 2.8em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.3em;
+            opacity: 0.9;
+        }
+
+        section {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            font-size: 2.2em;
+            color: #007bff;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #007bff;
+            padding-bottom: 10px;
+        }
+        
+        .section-title-alt { /* Voor sub-secties zoals Locatie en Afdeling */
+            font-size: 1.8em;
+            color: #0069d9; /* Iets donkerder blauw */
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-left: 4px solid #0069d9;
+            padding-left: 10px;
+        }
+
+
+        h3 {
+            font-size: 1.5em;
+            color: #0056b3;
+            margin: 25px 0 15px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        h3::before {
+            content: "📋";
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+        
+        h4 {
+            font-size: 1.2em;
+            color: #495057;
+            margin: 20px 0 10px 0;
+            font-weight: 600;
+        }
+
+        p, li {
+            margin-bottom: 12px;
+            font-size: 1.1em;
+        }
+
+        ul {
+            margin: 15px 0 15px 25px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .concept-box {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            border-left: 5px solid #007bff;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+
+        .concept-box h4 {
+            color: #0056b3;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .concept-box h4::before {
+            content: "💡";
+            margin-right: 8px;
+        }
+
+        .step-container {
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .step-number {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: #007bff;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-weight: 600;
+            color: #856404;
+        }
+        
+        .icon-char {
+            font-family: 'Segoe UI Symbol', Symbola, 'Arial Unicode MS', serif; /* For special characters */
+            font-weight: bold;
+            color: #007bff;
+        }
+        
+        .warning-box {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .warning-box::before {
+            content: "⚠️ ";
+            font-weight: bold;
+        }
+
+        .quiz {
+            display: none;
+        }
+
+        .quiz.active {
+            display: block;
+        }
+
+        .question {
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .options button {
+            display: inline-block;
+            margin: 10px;
+            padding: 15px 25px;
+            font-size: 1.1em;
+            color: white;
+            background: #007bff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+        }
+
+        .options button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 123, 255, 0.4);
+        }
+
+        .options button.correct {
+            background: #28a745 !important;
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+        }
+
+        .options button.wrong {
+            background: #dc3545 !important;
+            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+        }
+
+        .options button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .feedback {
+            font-size: 2em;
+            margin: 20px 0;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .feedback.good {
+            color: #28a745;
+        }
+
+        .feedback.wrong {
+            color: #dc3545;
+        }
+
+        .navigation {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .navigation button {
+            padding: 12px 25px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 0 10px;
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+        }
+
+        .navigation button:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+        }
+        
+        .results-section {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .results-section p {
+            font-size: 1.8em;
+            margin: 20px 0;
+            color: #495057;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Locaties en Afdelingen Beheren</h1>
+        <p>Gedetailleerde instructiegids en interactieve quiz</p>
+    </header>
+
+    <!-- Instructie Sectie -->
+    <section>
+        <h2>📚 Instructiegids: Locaties en Afdelingen</h2>
+        
+        <div class="concept-box">
+            <h4>Waarom Locaties en Afdelingen?</h4>
+            <p>Het structureren van je organisatie met locaties (vestigingen) en daaronder afdelingen zorgt voor een helder overzicht. Dit is essentieel voor:
+                <ul>
+                    <li>Gerichte communicatie</li>
+                    <li>Duidelijke verantwoordelijkheden</li>
+                    <li>Efficiënte resourceplanning</li>
+                    <li>Nauwkeurige rapportages</li>
+                </ul>
+            Je kunt hiermee een hiërarchische structuur opbouwen die de werkelijke organisatie weerspiegelt.
+            </p>
+        </div>
+
+        <h2 class="section-title-alt">📍 Locatie Toevoegen</h2>
+
+        <div class="step-container">
+            <div class="step-number">1</div>
+            <h3>Navigeer naar Organisatie Dossier</h3>
+            <h4>🎯 Doel</h4>
+            <p>De context van de organisatie openen waarbinnen de locatie moet worden aangemaakt.</p>
+            
+            <h4>📝 Acties</h4>
+            <ul>
+                <li>Ga naar het dossier van de betreffende organisatie.</li>
+            </ul>
+        </div>
+
+        <div class="step-container">
+            <div class="step-number">2</div>
+            <h3>Vind het Veld 'Vestiging(en)'</h3>
+            <h4>🎯 Doel</h4>
+            <p>Het specifieke veld lokaliseren waar locaties worden beheerd.</p>
+            
+            <h4>📝 Acties</h4>
+            <ul>
+                <li>Zoek binnen het organisatiedossier naar het veld <span class="highlight">'Vestiging(en)'</span>.</li>
+            </ul>
+        </div>
+        
+        <div class="step-container">
+            <div class="step-number">3</div>
+            <h3>Start Toevoegen Locatie</h3>
+            <h4>🎯 Doel</h4>
+            <p>Het proces voor het aanmaken van een nieuwe locatie initiëren.</p>
+            
+            <h4>📝 Acties</h4>
+            <ul>
+                <li>Klik op de optie <span class="highlight">'Locatie toevoegen'</span> binnen het 'Vestiging(en)' veld.</li>
+                <li>Er wordt een pop-up scherm geopend.</li>
+            </ul>
+        </div>
+
+        <div class="step-container">
+            <div class="step-number">4</div>
+            <h3>Vul Gegevens In en Voeg Toe</h3>
+            <h4>🎯 Doel</h4>
+            <p>De benodigde details voor de nieuwe locatie invoeren en opslaan.</p>
+            
+            <h4>📝 Acties</h4>
+            <ul>
+                <li>Vul in het pop-up scherm de gevraagde gegevens in (bijv. naam locatie, adres, etc.).</li>
+                <li>Klik op de knop <span class="highlight">'Toevoegen'</span> om de locatie aan te maken.</li>
+            </ul>
+            <div class="warning-box">
+                <strong>Tip:</strong> Zorg ervoor dat alle verplichte velden correct zijn ingevuld voor een succesvolle aanmaak.
+            </div>
+        </div>
+
+        <h2 class="section-title-alt">🏢 Afdeling Toevoegen (aan een Locatie)</h2>
+
+        <div class="step-container">
+            <div class="step-number">1</div>
+            <h3>Selecteer de Locatie</h3>
+            <h4>🎯 Doel</h4>
+            <p>De specifieke locatie identificeren waaraan de nieuwe afdeling gekoppeld moet worden.</p>
+            
+            <h4>📝 Acties</h4>
+            <ul>
+                <li>Zorg dat de locatie waaraan je een afdeling wilt toevoegen zichtbaar is in het overzicht (bijvoorbeeld onder 'Vestiging(en)').</li>
+            </ul>
+        </div>
+        
+        <div class="step-container">
+            <div class="step-number">2</div>
+            <h3>Open Opties voor de Locatie</h3>
+            <h4>🎯 Doel</h4>
+            <p>Het contextmenu openen voor de geselecteerde locatie.</p>
+            
+            <h4>📝 Acties</h4>
+            <ul>
+                <li>Klik op de <span class="highlight">3 verticale puntjes (<span class="icon-char">⋮</span>)</span> achter de naam van de betreffende locatie.</li>
+            </ul>
+        </div>
+
+        <div class="step-container">
+            <div class="step-number">3</div>
+            <h3>Start Toevoegen Afdeling</h3>
+            <h4>🎯 Doel</h4>
+            <p>Het proces voor het aanmaken van een nieuwe afdeling initiëren.</p>
+            
+            <h4>📝 Acties</h4>
+            <ul>
+                <li>Kies uit het contextmenu de optie <span class="highlight">'Afdeling toevoegen'</span>.</li>
+                <li>Er wordt een pop-up scherm geopend.</li>
+            </ul>
+        </div>
+
+        <div class="step-container">
+            <div class="step-number">4</div>
+            <h3>Vul Gegevens In en Voeg Toe</h3>
+            <h4>🎯 Doel</h4>
+            <p>De benodigde details voor de nieuwe afdeling invoeren en opslaan.</p>
+            
+            <h4>📝 Acties</h4>
+            <ul>
+                <li>Vul in het pop-up scherm de gevraagde gegevens in (bijv. naam afdeling, verantwoordelijke, etc.).</li>
+                <li>Klik op de knop <span class="highlight">'Toevoegen'</span> om de afdeling aan te maken.</li>
+            </ul>
+        </div>
+        
+        <h2 class="section-title-alt">👁️ Afdelingen Zichtbaar Maken</h2>
+        
+        <div class="step-container">
+            <div class="step-number">1</div>
+            <h3>Toon Gekoppelde Afdelingen</h3>
+            <h4>🎯 Doel</h4>
+            <p>De afdelingen die onder een specifieke locatie vallen, zichtbaar maken.</p>
+            
+            <h4>📝 Acties</h4>
+            <ul>
+                <li>Een locatie is nu toegevoegd aan de organisatie, en aan die locatie is een afdeling toegevoegd.</li>
+                <li>Klik op het <span class="highlight">'+-teken' (<span class="icon-char">+</span>)</span> voor de locatienaam om de daaraan gekoppelde afdeling(en) te tonen.</li>
+            </ul>
+        </div>
+
+        <div class="warning-box">
+            <strong>Best Practices:</strong>
+            <ul>
+                <li>Gebruik een consistente naamgeving voor locaties en afdelingen.</li>
+                <li>Controleer of de locatie/afdeling nog niet bestaat om duplicaten te voorkomen.</li>
+                <li>Wijs indien mogelijk direct een verantwoordelijke of contactpersoon toe.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Quiz Sectie -->
+    <section id="quiz-section">
+        <h2>🎯 Toets je Kennis</h2>
+        <div id="quiz-1" class="quiz active">
+            <div class="question">Waar begin je met het toevoegen van een nieuwe locatie (vestiging)?</div>
+            <div class="options">
+                <button onclick="handleQuizAnswer(this, true)">In het dossier van de organisatie, bij het veld 'Vestiging(en)', kies 'Locatie toevoegen'.</button>
+                <button onclick="handleQuizAnswer(this, false)">In een algemeen instellingenmenu onder 'Nieuwe Entiteiten'.</button>
+            </div>
+            <div id="feedback-quiz-1" class="feedback"></div>
+            <div class="navigation">
+                <button onclick="nextQuiz(2)">Volgende Vraag</button>
+            </div>
+        </div>
+
+        <div id="quiz-2" class="quiz">
+            <div class="question">Hoe voeg je een afdeling toe aan een reeds bestaande locatie?</div>
+            <div class="options">
+                <button onclick="handleQuizAnswer(this, false)">Door een nieuwe locatie aan te maken en deze 'Afdeling X' te noemen.</button>
+                <button onclick="handleQuizAnswer(this, true)">Door op de 3 verticale puntjes achter de locatie te klikken en 'Afdeling toevoegen' te kiezen.</button>
+            </div>
+            <div id="feedback-quiz-2" class="feedback"></div>
+            <div class="navigation">
+                <button onclick="prevQuiz(1)">Vorige Vraag</button>
+                <button onclick="nextQuiz(3)">Volgende Vraag</button>
+            </div>
+        </div>
+        
+        <div id="quiz-3" class="quiz">
+            <div class="question">Wat doe je om een afdeling, die aan een locatie is toegevoegd, zichtbaar te maken in het overzicht?</div>
+            <div class="options">
+                <button onclick="handleQuizAnswer(this, true)">Op het '+-teken' voor de locatie klikken.</button>
+                <button onclick="handleQuizAnswer(this, false)">De pagina verversen; afdelingen worden altijd direct getoond.</button>
+            </div>
+            <div id="feedback-quiz-3" class="feedback"></div>
+            <div class="navigation">
+                <button onclick="prevQuiz(2)">Vorige Vraag</button>
+                <button onclick="showResults()">Resultaat Tonen</button>
+            </div>
+        </div>
+
+        <div id="quiz-results" class="quiz">
+            <div class="results-section">
+                <h2>🏆 Resultaten</h2>
+                <p id="result-text"></p>
+                <div class="navigation">
+                    <button onclick="restartQuiz()">Opnieuw Proberen</button>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+    let correctAnswers = 0;
+    let totalQuestions = 3;
+
+    function handleQuizAnswer(button, correct) {
+        const parent = button.parentElement;
+        const feedback = parent.nextElementSibling;
+
+        parent.querySelectorAll('button').forEach(btn => btn.disabled = true);
+
+        if (correct) {
+            correctAnswers++;
+            button.classList.add('correct');
+            feedback.textContent = 'Goed 🎉';
+            feedback.className = 'feedback good';
+        } else {
+            button.classList.add('wrong');
+            feedback.textContent = 'Fout 🚫';
+            feedback.className = 'feedback wrong';
+        }
+    }
+
+    function nextQuiz(quizNumber) {
+        document.querySelectorAll('.quiz').forEach(quiz => quiz.classList.remove('active'));
+        document.getElementById(`quiz-${quizNumber}`).classList.add('active');
+    }
+
+    function prevQuiz(quizNumber) {
+        document.querySelectorAll('.quiz').forEach(quiz => quiz.classList.remove('active'));
+        document.getElementById(`quiz-${quizNumber}`).classList.add('active');
+    }
+
+    function showResults() {
+        const percentage = ((correctAnswers / totalQuestions) * 100).toFixed(0);
+
+        document.querySelectorAll('.quiz').forEach(quiz => quiz.classList.remove('active'));
+        document.getElementById('quiz-results').classList.add('active');
+
+        document.getElementById('result-text').textContent = `Je hebt ${correctAnswers} van de ${totalQuestions} vragen goed beantwoord (${percentage}%).`;
+    }
+
+    function restartQuiz() {
+        correctAnswers = 0;
+        document.querySelectorAll('.quiz').forEach(quiz => quiz.classList.remove('active'));
+        document.querySelectorAll('.options button').forEach(btn => {
+            btn.disabled = false;
+            btn.classList.remove('correct', 'wrong');
+        });
+        document.querySelectorAll('.feedback').forEach(fb => fb.textContent = '');
+
+        document.getElementById('quiz-1').classList.add('active');
+    }
+</script>
+
+</body>
+</html>
